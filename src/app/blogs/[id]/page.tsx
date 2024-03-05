@@ -1,4 +1,5 @@
 import BlogComment from "@/components/blogComment";
+import BlogCommentForm from "@/components/blogCommentForm";
 import { Heading, Text } from "@radix-ui/themes";
 
 const BlogDetails = () => {
@@ -22,7 +23,9 @@ const BlogDetails = () => {
         <Heading className="text-2xl font-bold">Comments</Heading>
         <BlogComment />
         <BlogComment />
-        <BlogComment />
+      </div>
+      <div className="mt-4 space-y-2">
+        <BlogCommentForm />
       </div>
     </div>
   );
