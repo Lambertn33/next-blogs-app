@@ -11,7 +11,7 @@ const Header = () => {
         <ul className="flex space-x-4">
           <li>
             <Link
-              href="/api/auth/login"
+              href="/api/auth/signin"
               className="text-white hover:underline font-semibold"
             >
               Authenticate

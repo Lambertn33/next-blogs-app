@@ -2,6 +2,8 @@
 
 import { ChangeEvent, FormEvent, useState } from "react";
 
+import { useSession } from "next-auth/react";
+
 import { TextField, TextArea, Button } from "@radix-ui/themes";
 
 import { BlogData } from "@/types/blog";
@@ -29,6 +31,11 @@ const BlogForm = () => {
     e.preventDefault();
     console.log(blogData);
   };
+
+  //user
+
+  const { data } = useSession();
+  console.log('data', data?.user);
 
   return (
     <form
