@@ -1,8 +1,13 @@
+import prisma from "@/lib/db";
 import { Card, Text } from "@radix-ui/themes";
-import { posts } from "@/data/posts";
 import Link from "next/link";
 
-const Blogs = () => {
+const Blogs = async () => {
+  const posts = await prisma.post.findMany({
+    include: {
+      author: true,
+    },
+  });
   return (
     <div className="max-w-4xl mx-auto py-5">
       <h1 className="text-center text-2xl font-semibold">Blogs List</h1>
@@ -13,8 +18,8 @@ const Blogs = () => {
               <Text as="div" size="4" weight="bold" className="mb-2">
                 {post.title}
               </Text>
-              <Text as="div" color="gray" size="2">
-                {post.content}
+              <Text as="p" color="gray" size="2">
+                written by: {post.author?.name}
               </Text>
             </Card>
           </Link>
