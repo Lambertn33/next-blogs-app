@@ -1,8 +1,9 @@
-import BlogComment from "@/components/blogComment";
-import BlogCommentForm from "@/components/blogCommentForm";
-import prisma from "@/lib/db";
 import { Heading, Text } from "@radix-ui/themes";
 import { FC } from "react";
+
+import prisma from "@/lib/db";
+import BlogCommentForm from "@/components/blogCommentForm";
+import BlogComments from "@/components/blogComments";
 
 interface BlogDetailsProps {
   params: {
@@ -36,11 +37,10 @@ const BlogDetails: FC<BlogDetailsProps> = async ({ params }) => {
       </div>
       <div className="mt-4 space-y-3">
         <Heading className="text-2xl font-bold">Comments</Heading>
-        <BlogComment />
-        <BlogComment />
+        <BlogComments blogId={blog?.id!} />
       </div>
       <div className="mt-4 space-y-2">
-        <BlogCommentForm />
+        <BlogCommentForm blogId={blog?.id!} />
       </div>
     </div>
   );

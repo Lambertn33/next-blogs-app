@@ -13,6 +13,11 @@ const Header = async () => {
         <Link href="/" className="text-white text-3xl font-bold">
           Blogs
         </Link>
+        {user?.email && (
+          <Link href="/blogs/create" className="text-white text-3xl font-bold">
+            Add Blog
+          </Link>
+        )}
         <ul className="flex space-x-4 items-center">
           <li>
             {user?.email ? (

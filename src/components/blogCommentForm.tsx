@@ -1,15 +1,46 @@
 "use client";
 
-import { TextField, Button, Text } from "@radix-ui/themes";
-import { ChangeEvent, useState } from "react";
+import axios from "axios";
 
-const BlogCommentForm = () => {
-  const [comment, setComment] = useState("");
+import { TextField, Button, Text } from "@radix-ui/themes";
+
+import { ChangeEvent, FC, useState } from "react";
+
+import { useRouter } from "next/navigation";
+
+import { useSession } from "next-auth/react";
+
+interface BlogCommentProps {
+  blogId: string;
+}
+
+const BlogCommentForm: FC<BlogCommentProps> = ({ blogId }) => {
+  const [comment, setComment] = useState<string>("");
+
+  const { data } = useSession();
+
+  const router = useRouter();
 
   const handleChangeComment = (e: ChangeEvent<HTMLInputElement>) =>
     setComment(e.target.value);
 
-  const handleSubmitComment = () => console.log(comment);
+  const handleSubmitComment = async () => {
+    if (comment.trim() !== "") {
+      try {
+        const response = await axios.post("/api/comments", {
+          comment,
+          blogId,
+        });
+
+        if (response.status === 200) {
+          setComment("");
+          router.refresh();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
 
   return (
     <div className="space-y-2">
@@ -21,7 +52,9 @@ const BlogCommentForm = () => {
         value={comment}
         onChange={handleChangeComment}
       ></TextField.Input>
-      <Button onClick={handleSubmitComment}>Add Comment</Button>
+      <Button disabled={!data?.user} onClick={handleSubmitComment}>
+        Add Comment
+      </Button>
     </div>
   );
 };

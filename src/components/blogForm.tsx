@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import { TextField, TextArea, Button } from "@radix-ui/themes";
 
 import { BlogData } from "@/types/blog";
+
 import axios from "axios";
 
 const BlogForm = () => {
@@ -70,7 +71,7 @@ const BlogForm = () => {
         onChange={handleChange}
       ></TextArea>
 
-      <Button variant="classic" className="cursor-pointer flex w-full">
+      <Button disabled={!data?.user} variant="classic" className="cursor-pointer flex w-full">
         Add blog
       </Button>
     </form>

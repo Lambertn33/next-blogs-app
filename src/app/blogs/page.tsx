@@ -25,6 +25,7 @@ const Blogs = async () => {
           </Link>
         ))}
       </div>
+
     </div>
   );
 };

@@ -1,9 +1,9 @@
-import Blogs from "@/app/blogs/page";
+import BlogForm from "@/components/blogForm";
 
 export default function Home() {
   return (
     <main>
-      <Blogs />
+      <BlogForm />
     </main>
   );
 }
