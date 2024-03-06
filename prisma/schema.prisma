@@ -1,10 +1,10 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Account {
@@ -42,6 +42,8 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  posts         Post[]
+  comments      Comment[]
 }
 
 model VerificationToken {
@@ -50,4 +52,25 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  author      User?     @relation(fields: [authorEmail], references: [email])
+  authorEmail String?
+  createdAt   DateTime  @default(now())
+  comments    Comment[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+
+  author      User?   @relation(fields: [authorEmail], references: [email])
+  authorEmail String?
+  Post        Post?   @relation(fields: [postId], references: [id])
+  postId      String?
 }

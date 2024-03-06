@@ -2,17 +2,22 @@
 
 import { ChangeEvent, FormEvent, useState } from "react";
 
+import { useRouter } from "next/navigation";
+
 import { useSession } from "next-auth/react";
 
 import { TextField, TextArea, Button } from "@radix-ui/themes";
 
 import { BlogData } from "@/types/blog";
+import axios from "axios";
 
 const BlogForm = () => {
   const [blogData, setBlogData] = useState<BlogData>({
     title: "",
     content: "",
   });
+
+  const router = useRouter();
 
   //onchange function
   const handleChange = (
@@ -27,15 +32,22 @@ const BlogForm = () => {
   };
 
   //form submission
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(blogData);
+    try {
+      const response = await axios.post("api/blogs", blogData);
+      if (response.status === 200) {
+        const { newBlog } = response.data;
+        router.push(`/blogs/${newBlog.id}`);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //user
 
   const { data } = useSession();
-  console.log('data', data?.user);
 
   return (
     <form
